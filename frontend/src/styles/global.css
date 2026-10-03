@@ -19,9 +19,6 @@ body {
     background-color: var(--gray-00);
 }
 
-svg *[fill] { fill: currentColor }
-svg *[stroke] { stroke: currentColor }
-
 a, button, input, textarea, svg * {
     transition-duration: var(--transition-duration);
 }
@@ -43,4 +40,16 @@ p:not([class]):not(:last-child) {
 .container-wide {
     max-width: 1920px;
     margin-inline: auto;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }

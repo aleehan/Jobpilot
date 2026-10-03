@@ -1,4 +1,5 @@
 import Header from "./components/Header/Header.jsx";
+import HomePage from "./pages/HomePage/HomePage.jsx";
 
 const navLinks = [
     { label: 'Home', href: '/', isActive: true },
@@ -29,6 +30,7 @@ function App() {
           isMenuOpen={false}
           onSearchChange={() => {}}
       />
+        <HomePage/>
     </>
   )
 }
