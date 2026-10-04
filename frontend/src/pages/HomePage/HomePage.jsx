@@ -1,7 +1,7 @@
-// src/pages/HomePage/HomePage.jsx
 import Hero from "../../components/Hero/Hero.jsx";
 import heroIllustration from "../../assets/homePage/illustration.svg";
 import PopularVacancies from "../../components/PopularVacancies/PopularVacancies.jsx";
+import HowItWorks from "../../components/HowItWorks/HowItWorks.jsx";
 
 const popularVacancies = [
   {
@@ -77,6 +77,32 @@ const stats = [
   { value: "7,532", label: "New Jobs", icon: "briefcase" },
 ];
 
+const howItWorksSteps = [
+  {
+    title: "Create account",
+    description:
+      "Aliquam facilisis egestas sapien, nec tempor leo tristique at.",
+    icon: "user-plus",
+  },
+  {
+    title: "Upload CV/Resume",
+    description:
+      "Curabitur sit amet maximus ligula. Nam a nulla ante. Nam sodales",
+    icon: "cloud-upload",
+  },
+  {
+    title: "Find suitable job",
+    description: "Phasellus quis eleifend ex. Morbi nec fringilla nibh.",
+    icon: "search-plus",
+  },
+  {
+    title: "Apply job",
+    description:
+      "Curabitur sit amet maximus ligula. Nam a nulla ante, Nam sodales purus.",
+    icon: "badge-check",
+  },
+];
+
 function HomePage() {
   return (
     <main>
@@ -101,6 +127,7 @@ function HomePage() {
         positionsLabel="Open Positions"
         vacancies={popularVacancies}
       />
+      <HowItWorks title="How jobpilot work" steps={howItWorksSteps} />
     </main>
   );
 }
