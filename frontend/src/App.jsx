@@ -1,6 +1,15 @@
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
-import HomePage from "./pages/HomePage/HomePage.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+
+import HomePage from "./pages/HomePage/HomePage.jsx";
+import LoginPage from "./pages/LoginPage/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
+
 import facebookIcon from "./assets/footer/facebook.svg";
 import youtubeIcon from "./assets/footer/youtube.svg";
 import instagramIcon from "./assets/footer/instagram.svg";
@@ -61,6 +70,8 @@ const socials = [
 ];
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <>
       <Header
@@ -79,7 +90,38 @@ function App() {
         isMenuOpen={false}
         onSearchChange={() => {}}
       />
-      <HomePage />
+      <Routes>
+        {/* Все */}
+        <Route path="/" element={<HomePage />} />
+        {/*<Route path="/jobs" element={<JobsPage />} />*/}
+        {/*<Route path="/jobs/:id" element={<JobDetailsPage />} />*/}
+
+        {/* Гость (страницы сами редиректят вошедшего на /) */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
+        {/* Любой вошедший */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Соискатель */}
+        {/*<Route path="/apply/success" element={<ProtectedRoute role="candidate"><ApplySuccessPage /></ProtectedRoute>} />*/}
+        {/*<Route path="/my-applications" element={<ProtectedRoute role="candidate"><MyApplicationsPage /></ProtectedRoute>} />*/}
+
+        {/* Работодатель */}
+        {/*<Route path="/dashboard" element={<ProtectedRoute role="employer"><DashboardPage /></ProtectedRoute>} />*/}
+        {/*<Route path="/dashboard/jobs/new" element={<ProtectedRoute role="employer"><JobFormPage /></ProtectedRoute>} />*/}
+        {/*<Route path="/dashboard/jobs/:id/edit" element={<ProtectedRoute role="employer"><JobFormPage /></ProtectedRoute>} />*/}
+        {/*<Route path="/dashboard/applications" element={<ProtectedRoute role="employer"><DashboardApplicationsPage /></ProtectedRoute>} />*/}
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
       <Footer
         logoText="Jobpilot"
         logoHref="/"
