@@ -9,6 +9,13 @@ import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
+import JobsPage from "./pages/JobsPage/JobsPage.jsx";
+import JobDetailsPage from "./pages/JobDetailsPage/JobDetailsPage.jsx";
+import ApplySuccessPage from "./pages/ApplySuccessPage/ApplySuccessPage.jsx";
+import MyApplicationsPage from "./pages/MyApplicationsPage/MyApplicationsPage.jsx";
+import DashboardPage from "./pages/DashboardPage/DashboardPage.jsx";
+import JobFormPage from "./pages/JobFormPage/JobFormPage.jsx";
+import DashboardApplicationsPage from "./pages/DashboardApplicationsPage/DashboardApplicationsPage.jsx";
 
 import facebookIcon from "./assets/footer/facebook.svg";
 import youtubeIcon from "./assets/footer/youtube.svg";
@@ -93,13 +100,11 @@ function App() {
       <Routes>
         {/* Все */}
         <Route path="/" element={<HomePage />} />
-        {/*<Route path="/jobs" element={<JobsPage />} />*/}
-        {/*<Route path="/jobs/:id" element={<JobDetailsPage />} />*/}
-
+        <Route path="/jobs" element={<JobsPage />} />
+        <Route path="/jobs/:id" element={<JobDetailsPage />} />
         {/* Гость (страницы сами редиректят вошедшего на /) */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
         {/* Любой вошедший */}
         <Route
           path="/profile"
@@ -109,17 +114,56 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         {/* Соискатель */}
-        {/*<Route path="/apply/success" element={<ProtectedRoute role="candidate"><ApplySuccessPage /></ProtectedRoute>} />*/}
-        {/*<Route path="/my-applications" element={<ProtectedRoute role="candidate"><MyApplicationsPage /></ProtectedRoute>} />*/}
-
-        {/* Работодатель */}
-        {/*<Route path="/dashboard" element={<ProtectedRoute role="employer"><DashboardPage /></ProtectedRoute>} />*/}
-        {/*<Route path="/dashboard/jobs/new" element={<ProtectedRoute role="employer"><JobFormPage /></ProtectedRoute>} />*/}
-        {/*<Route path="/dashboard/jobs/:id/edit" element={<ProtectedRoute role="employer"><JobFormPage /></ProtectedRoute>} />*/}
-        {/*<Route path="/dashboard/applications" element={<ProtectedRoute role="employer"><DashboardApplicationsPage /></ProtectedRoute>} />*/}
-
+        <Route
+          path="/apply/success"
+          element={
+            <ProtectedRoute role="candidate">
+              <ApplySuccessPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-applications"
+          element={
+            <ProtectedRoute role="candidate">
+              <MyApplicationsPage />
+            </ProtectedRoute>
+          }
+        />
+        Работодатель
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute role="employer">
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/jobs/new"
+          element={
+            <ProtectedRoute role="employer">
+              <JobFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/jobs/:id/edit"
+          element={
+            <ProtectedRoute role="employer">
+              <JobFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/applications"
+          element={
+            <ProtectedRoute role="employer">
+              <DashboardApplicationsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer
