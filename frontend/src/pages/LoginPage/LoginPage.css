@@ -1,0 +1,132 @@
+/* Страница во всю высоту экрана: сверху логотип, ниже форма по центру */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--gray-00);
+}
+
+.login-page__top {
+    padding: 14px 45px;
+}
+
+.login-page__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    text-decoration: none;
+}
+
+.login-page__logo-icon {
+    color: var(--primary-500);
+}
+
+/* Занимает всё оставшееся место и ставит карточку по центру */
+.login-page__content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px var(--container-padding-x) 64px;
+}
+
+.login-page__card {
+    width: 100%;
+    max-width: 536px;
+}
+
+.login-page__title {
+    margin: 0 0 16px;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 40px;
+    color: var(--gray-900);
+}
+
+.login-page__subtitle {
+    margin: 0 0 32px;
+    font-size: 16px;
+    color: var(--gray-600);
+}
+
+.login-page__link {
+    font-weight: 500;
+    color: var(--primary-500);
+    text-decoration: none;
+}
+
+.login-page__link:hover {
+    text-decoration: underline;
+}
+
+.login-page__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Иконка «глаз» поверх поля пароля, по центру его высоты */
+.login-page__password {
+    position: relative;
+}
+
+.login-page__eye {
+    position: absolute;
+    top: calc(var(--input-height) / 2);
+    right: 12px;
+    transform: translateY(-50%);
+    display: flex;
+    padding: 4px;
+    border: none;
+    background: none;
+    color: var(--gray-900);
+    cursor: pointer;
+}
+
+.login-page__options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.login-page__remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--gray-500);
+    cursor: pointer;
+}
+
+.login-page__checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--primary-500);
+    cursor: pointer;
+}
+
+.login-page__forgot {
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-500);
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .login-page__top {
+        padding: 14px 45px;
+    }
+
+    .login-page__content {
+        padding-bottom: 96px;
+    }
+}
