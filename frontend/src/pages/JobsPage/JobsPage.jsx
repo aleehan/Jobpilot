@@ -1,12 +1,60 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import JobCard from "../../components/JobCard/JobCard.jsx";
+import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import { jobsTemp } from "../../mocks/jobsTemp.js";
 import "./JobsPage.css";
 
+// Приводим к нижнему регистру и убираем пробелы и дефисы: «Front-end» найдёт «Frontend»
+const normalize = (text) => text.toLowerCase().replace(/[-\s]/g, "");
+
 function JobsPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const q = searchParams.get("q") || "";
+  const location = searchParams.get("location") || "";
+
+  // Текст в полях, пока пользователь печатает. В адрес он попадает по кнопке «Find Job».
+  const [queryInput, setQueryInput] = useState(q);
+  const [locationInput, setLocationInput] = useState(location);
+
+  // Записываем q и location в адрес, остальные параметры (category, type...) сохраняем
+  const updateParams = (nextQ, nextLocation) => {
+    const next = new URLSearchParams(searchParams);
+    if (nextQ.trim()) {
+      next.set("q", nextQ.trim());
+    } else {
+      next.delete("q");
+    }
+    if (nextLocation.trim()) {
+      next.set("location", nextLocation.trim());
+    } else {
+      next.delete("location");
+    }
+    setSearchParams(next);
+  };
+
+  const handleSubmit = () => {
+    updateParams(queryInput, locationInput);
+  };
+
+  const handlePopularSelect = (value) => {
+    setQueryInput(value);
+    updateParams(value, locationInput);
+  };
+
   // Временно: вакансии из jobsTemp.
   // Когда появится JobsContext (У3), заменить на useJobs().
-  const jobs = jobsTemp.filter((job) => job.is_active);
+  const query = normalize(q);
+  const place = normalize(location);
+  const jobs = jobsTemp.filter((job) => {
+    if (!job.is_active) {
+      return false;
+    }
+    const matchesQuery =
+      !query || normalize(job.title).includes(query) || normalize(job.company).includes(query);
+    const matchesLocation = !place || normalize(job.location).includes(place);
+    return matchesQuery && matchesLocation;
+  });
 
   return (
     <main className="jobs-page">
@@ -25,6 +73,17 @@ function JobsPage() {
 
       <section className="jobs-page__content">
         <div className="jobs-page__container">
+          <div className="jobs-page__search">
+            <SearchBar
+              query={queryInput}
+              location={locationInput}
+              onQueryChange={setQueryInput}
+              onLocationChange={setLocationInput}
+              onSubmit={handleSubmit}
+              onPopularSelect={handlePopularSelect}
+            />
+          </div>
+
           {jobs.length === 0 ? (
             <p className="jobs-page__empty">No jobs found</p>
           ) : (
