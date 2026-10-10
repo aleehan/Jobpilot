@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import JobCard from "../../components/JobCard/JobCard.jsx";
+import JobFilters from "../../components/JobFilters/JobFilters.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import { jobsTemp } from "../../mocks/jobsTemp.js";
 import "./JobsPage.css";
@@ -8,38 +9,51 @@ import "./JobsPage.css";
 // Приводим к нижнему регистру и убираем пробелы и дефисы: «Front-end» найдёт «Frontend»
 const normalize = (text) => text.toLowerCase().replace(/[-\s]/g, "");
 
+// Записывает параметр в адрес, а пустое значение удаляет
+const setParam = (params, key, value) => {
+  if (value) {
+    params.set(key, String(value));
+  } else {
+    params.delete(key);
+  }
+};
+
 function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
+  const category = searchParams.get("category") || "";
+  const type = searchParams.get("type") || "";
+  const salaryMin = Number(searchParams.get("salary_min")) || 0;
 
   // Текст в полях, пока пользователь печатает. В адрес он попадает по кнопке «Find Job».
   const [queryInput, setQueryInput] = useState(q);
   const [locationInput, setLocationInput] = useState(location);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  // Записываем q и location в адрес, остальные параметры (category, type...) сохраняем
-  const updateParams = (nextQ, nextLocation) => {
-    const next = new URLSearchParams(searchParams);
-    if (nextQ.trim()) {
-      next.set("q", nextQ.trim());
-    } else {
-      next.delete("q");
-    }
-    if (nextLocation.trim()) {
-      next.set("location", nextLocation.trim());
-    } else {
-      next.delete("location");
-    }
-    setSearchParams(next);
-  };
-
+  // Остальные параметры в адресе сохраняются
   const handleSubmit = () => {
-    updateParams(queryInput, locationInput);
+    const next = new URLSearchParams(searchParams);
+    setParam(next, "q", queryInput.trim());
+    setParam(next, "location", locationInput.trim());
+    setSearchParams(next);
   };
 
   const handlePopularSelect = (value) => {
     setQueryInput(value);
-    updateParams(value, locationInput);
+    const next = new URLSearchParams(searchParams);
+    setParam(next, "q", value);
+    setParam(next, "location", locationInput.trim());
+    setSearchParams(next);
+  };
+
+  const handleFiltersApply = (filters) => {
+    const next = new URLSearchParams(searchParams);
+    setParam(next, "category", filters.category);
+    setParam(next, "type", filters.type);
+    setParam(next, "salary_min", filters.salary_min);
+    setSearchParams(next);
+    setIsFiltersOpen(false);
   };
 
   // Временно: вакансии из jobsTemp.
@@ -53,7 +67,10 @@ function JobsPage() {
     const matchesQuery =
       !query || normalize(job.title).includes(query) || normalize(job.company).includes(query);
     const matchesLocation = !place || normalize(job.location).includes(place);
-    return matchesQuery && matchesLocation;
+    const matchesCategory = !category || job.category === category;
+    const matchesType = !type || job.employment_type === type;
+    const matchesSalary = !salaryMin || job.salary_max >= salaryMin;
+    return matchesQuery && matchesLocation && matchesCategory && matchesType && matchesSalary;
   });
 
   return (
@@ -80,6 +97,7 @@ function JobsPage() {
               onQueryChange={setQueryInput}
               onLocationChange={setLocationInput}
               onSubmit={handleSubmit}
+              onFiltersClick={() => setIsFiltersOpen(true)}
               onPopularSelect={handlePopularSelect}
             />
           </div>
@@ -95,6 +113,14 @@ function JobsPage() {
           )}
         </div>
       </section>
+
+      {isFiltersOpen && (
+        <JobFilters
+          values={{ category, type, salary_min: salaryMin }}
+          onApply={handleFiltersApply}
+          onClose={() => setIsFiltersOpen(false)}
+        />
+      )}
     </main>
   );
 }
