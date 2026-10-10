@@ -6,6 +6,7 @@ import { useApplications } from "../../context/ApplicationsContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { jobsTemp } from "../../mocks/jobsTemp.js";
 import { CATEGORIES, EMPLOYMENT_TYPES } from "../../utils/constants.js";
+import ApplyModal from "../../components/ApplyModal/ApplyModal.jsx";
 import NotFoundPage from "../NotFoundPage/NotFoundPage.jsx";
 import "./JobDetailsPage.css";
 
@@ -34,6 +35,7 @@ function JobDetailsPage() {
   const { user, isAuthenticated } = useAuth();
   const { hasApplied } = useApplications();
   const [isCopied, setIsCopied] = useState(false);
+  const [isApplyOpen, setIsApplyOpen] = useState(false);
 
   // Временно: вакансия из jobsTemp.
   // Когда появится JobsContext (У3), заменить на getJobById(id) из useJobs().
@@ -57,7 +59,7 @@ function JobDetailsPage() {
   const relatedJobs = [...sameCategory, ...differentCategory].slice(0, 3);
 
   const handleApply = () => {
-    // Здесь будет открываться ApplyModal (следующий шаг)
+    setIsApplyOpen(true);
   };
 
   const handleCopyLink = async () => {
@@ -224,6 +226,7 @@ function JobDetailsPage() {
           </section>
         </div>
       </section>
+      {isApplyOpen && <ApplyModal job={job} onClose={() => setIsApplyOpen(false)} />}
     </main>
   );
 }
