@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
@@ -76,27 +76,33 @@ const socials = [
   { label: "Twitter", href: "https://twitter.com", iconSrc: twitterIcon },
 ];
 
+const AUTH_PATHS = ["/login", "/register"];
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isAuthPage = AUTH_PATHS.includes(location.pathname);
 
   return (
     <>
-      <Header
-        logoText="Jobpilot"
-        logoHref="/"
-        navLinks={navLinks}
-        phone="+1-202-555-0178"
-        language={{ label: "English", flagSrc: "/flags/us.svg" }}
-        country={{ label: "India", flagSrc: "/flags/in.svg" }}
-        searchPlaceholder="Job title, keyword, company"
-        searchValue=""
-        signInLabel="Sign In"
-        postJobLabel="Post A Jobs"
-        menuOpenLabel="Open menu"
-        menuCloseLabel="Close menu"
-        isMenuOpen={false}
-        onSearchChange={() => {}}
-      />
+      {!isAuthPage && (
+        <Header
+          logoText="Jobpilot"
+          logoHref="/"
+          navLinks={navLinks}
+          phone="+1-202-555-0178"
+          language={{ label: "English", flagSrc: "/flags/us.svg" }}
+          country={{ label: "India", flagSrc: "/flags/in.svg" }}
+          searchPlaceholder="Job title, keyword, company"
+          searchValue=""
+          signInLabel="Sign In"
+          postJobLabel="Post A Jobs"
+          menuOpenLabel="Open menu"
+          menuCloseLabel="Close menu"
+          isMenuOpen={false}
+          onSearchChange={() => {}}
+        />
+      )}
       <Routes>
         {/* Все */}
         <Route path="/" element={<HomePage />} />
@@ -166,16 +172,18 @@ function App() {
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer
-        logoText="Jobpilot"
-        logoHref="/"
-        phoneLabel="Call now:"
-        phone="(319) 555-0115"
-        address="6391 Elgin St. Celina, Delaware 10299, New York, United States of America"
-        columns={footerColumns}
-        copyright="© 2021 Jobpilot - Job Portal. All rights Reserved"
-        socials={socials}
-      />
+      {!isAuthPage && (
+        <Footer
+          logoText="Jobpilot"
+          logoHref="/"
+          phoneLabel="Call now:"
+          phone="(319) 555-0115"
+          address="6391 Elgin St. Celina, Delaware 10299, New York, United States of America"
+          columns={footerColumns}
+          copyright="© 2021 Jobpilot - Job Portal. All rights Reserved"
+          socials={socials}
+        />
+      )}
     </>
   );
 }
