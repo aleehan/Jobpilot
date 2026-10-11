@@ -1,0 +1,28 @@
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.status-badge--pending {
+  color: var(--warning-500);
+  background-color: var(--warning-50);
+}
+
+.status-badge--reviewed {
+  color: var(--primary-500);
+  background-color: var(--primary-50);
+}
+
+.status-badge--accepted {
+  color: var(--success-500);
+  background-color: var(--success-50);
+}
+
+.status-badge--rejected {
+  color: var(--danger-500);
+  background-color: var(--danger-50);
+}
