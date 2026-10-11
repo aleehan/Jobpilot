@@ -1,8 +1,11 @@
 import Button from "../../components/Button/Button.jsx";
 import robotImage from "../../assets/notFoundPage/robot_404.svg";
 import "./NotFoundPage.css";
+import { useNavigate } from "react-router-dom";
 
 function NotFoundPage() {
+  const navigate = useNavigate();
+
   return (
     <main className="not-found-page">
       <div className="container not-found-page__inner">
@@ -25,8 +28,9 @@ function NotFoundPage() {
                 />
               </svg>
             </Button>
-            {/* Логика «назад» добавится позже через useNavigate */}
-            <Button variant="outline">Go Back</Button>
+            <Button variant="outline" onClick={() => navigate(-1)}>
+              Go Back
+            </Button>
           </div>
         </div>
 

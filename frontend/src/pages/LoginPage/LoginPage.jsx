@@ -1,9 +1,73 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx";
 import Button from "../../components/Button/Button.jsx";
 import Input from "../../components/Input/Input.jsx";
+import { validateLogin } from "../../utils/validation.js";
 import "./LoginPage.css";
 
+/** Иконка глаза: открытый, или перечёркнутый, когда пароль виден */
+function EyeIcon({ isCrossed = false }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
+      {isCrossed && (
+        <path d="M4 4l16 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      )}
+    </svg>
+  );
+}
+
 function LoginPage() {
+  const { isAuthenticated, login } = useAuth();
+  const navigate = useNavigate();
+
+  const [values, setValues] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  // Вошедшему пользователю страница входа не нужна (раздел 5.1)
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setValues({ ...values, [name]: value });
+
+    // Начал исправлять — убираем ошибку этого поля и общую ошибку
+    if (errors[name] || errors.form) {
+      setErrors({ ...errors, [name]: "", form: "" });
+    }
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    // 1. Клиентская проверка: пустые поля, формат email
+    const validationErrors = validateLogin(values);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // 2. «Серверная» проверка в контексте: есть ли такой пользователь
+    const result = login(values.email, values.password);
+    if (!result.ok) {
+      setErrors(result.errors);
+      return;
+    }
+
+    navigate("/");
+  }
+
   return (
     <main className="login-page">
       <div className="login-page__top">
@@ -68,27 +132,38 @@ function LoginPage() {
             </Link>
           </p>
 
-          {/* preventDefault временно: чтобы кнопка не перезагружала страницу, пока нет логики */}
-          <form
-            className="login-page__form"
-            onSubmit={(event) => event.preventDefault()}
-            noValidate
-          >
-            <Input name="email" type="email" placeholder="Email address" />
+          <form className="login-page__form" onSubmit={handleSubmit} noValidate>
+            {errors.form && (
+              <p className="login-page__form-error" role="alert">
+                {errors.form}
+              </p>
+            )}
+
+            <Input
+              name="email"
+              type="email"
+              placeholder="Email address"
+              value={values.email}
+              onChange={handleChange}
+              error={errors.email}
+            />
 
             <div className="login-page__password">
-              <Input name="password" type="password" placeholder="Password" />
-              <button type="button" className="login-page__eye" aria-label="Show password">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
+              <Input
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                placeholder="Password"
+                value={values.password}
+                onChange={handleChange}
+                error={errors.password}
+              />
+              <button
+                type="button"
+                className="login-page__eye"
+                aria-label={isPasswordVisible ? "Hide password" : "Show password"}
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              >
+                <EyeIcon isCrossed={isPasswordVisible} />
               </button>
             </div>
 

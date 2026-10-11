@@ -164,6 +164,12 @@
     cursor: pointer;
 }
 
+.register-page__terms-error {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--danger-500);
+}
+
 @media (min-width: 768px) {
     .register-page__row {
         grid-template-columns: 1fr 1fr;
