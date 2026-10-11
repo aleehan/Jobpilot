@@ -40,7 +40,7 @@ export function validateRegister(values) {
   return errors;
 }
 
-export function validateProfile(values) {
+export function validateProfile(values, role = "candidate") {
   const errors = {};
 
   if (isEmpty(values.first_name)) errors.first_name = "First name is required";
@@ -48,6 +48,10 @@ export function validateProfile(values) {
 
   if (isEmpty(values.email)) errors.email = "Email is required";
   else if (!isValidEmail(values.email)) errors.email = "Enter a valid email";
+
+  if (role === "employer" && isEmpty(values.company_name)) {
+    errors.company_name = "Company name is required";
+  }
 
   return errors;
 }
