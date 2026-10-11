@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import StatCard from "../StatCard/StatCard.jsx";
 import "./Hero.css";
 
@@ -27,11 +28,7 @@ function Hero({
               {title}
             </h1>
             <p className="hero__description">{description}</p>
-            <form
-              className="hero__search"
-              role="search"
-              onSubmit={onSearchSubmit}
-            >
+            <form className="hero__search" role="search" onSubmit={onSearchSubmit}>
               <label className="hero__field">
                 <span className="visually-hidden">{keywordPlaceholder}</span>
                 <svg
@@ -40,13 +37,7 @@ function Hero({
                   fill="none"
                   aria-hidden="true"
                 >
-                  <circle
-                    cx="11"
-                    cy="11"
-                    r="7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
+                  <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
                   <path
                     d="m20 20-3.5-3.5"
                     stroke="currentColor"
@@ -80,13 +71,7 @@ function Hero({
                     strokeWidth="2"
                     strokeLinejoin="round"
                   />
-                  <circle
-                    cx="12"
-                    cy="9.5"
-                    r="2.5"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
+                  <circle cx="12" cy="9.5" r="2.5" stroke="currentColor" strokeWidth="2" />
                 </svg>
                 <input
                   type="text"
@@ -105,17 +90,15 @@ function Hero({
 
             {suggestions.length > 0 && (
               <p className="hero__suggestions">
-                <span className="hero__suggestions-label">
-                  {suggestionLabel}
-                </span>{" "}
+                <span className="hero__suggestions-label">{suggestionLabel}</span>{" "}
                 {suggestions.map((item, index) => (
                   <span key={item.href}>
-                    <a
-                      href={item.href}
+                    <Link
+                      to={item.href}
                       className={`hero__suggestion${item.isActive ? " hero__suggestion--active" : ""}`}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                     {index < suggestions.length - 1 ? ", " : "."}
                   </span>
                 ))}
@@ -124,12 +107,7 @@ function Hero({
           </div>
 
           <div className="hero__illustration">
-            <img
-              src={illustrationSrc}
-              alt={illustrationAlt}
-              width="492"
-              height="382"
-            />
+            <img src={illustrationSrc} alt={illustrationAlt} width="492" height="382" />
           </div>
         </div>
 

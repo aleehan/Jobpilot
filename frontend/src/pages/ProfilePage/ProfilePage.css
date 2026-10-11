@@ -106,9 +106,27 @@
     grid-column: 1 / -1;
 }
 
-/* Чтобы кнопка не растягивалась на всю ширину формы */
 .profile-page__actions {
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.profile-page__success {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--success-500);
+}
+
+.profile-page__form-error {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    background-color: var(--danger-50);
+    font-size: 14px;
+    color: var(--danger-500);
 }
 
 @media (min-width: 768px) {
