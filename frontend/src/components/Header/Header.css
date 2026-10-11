@@ -230,6 +230,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    box-sizing: border-box;
     height: 48px;
     padding: 0 24px;
     border-radius: 3px;
@@ -341,6 +344,19 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
+}
+
+/* Кнопка с именем вошедшего пользователя */
+.header__user-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.header__user-name {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis; /* длинное имя обрежется с «…» */
 }
 
 /*Tablet*/

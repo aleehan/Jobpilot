@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext.jsx";
 import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
@@ -21,15 +22,6 @@ import facebookIcon from "./assets/footer/facebook.svg";
 import youtubeIcon from "./assets/footer/youtube.svg";
 import instagramIcon from "./assets/footer/instagram.svg";
 import twitterIcon from "./assets/footer/twitter.svg";
-
-const navLinks = [
-  { label: "Home", href: "/", isActive: true },
-  { label: "Find Job", href: "/jobs" },
-  { label: "Employers", href: "/employers" },
-  { label: "Candidates", href: "/candidates" },
-  { label: "Pricing Plans", href: "/pricing" },
-  { label: "Customer Supports", href: "/support" },
-];
 
 const footerColumns = [
   {
@@ -78,10 +70,57 @@ const socials = [
 
 const AUTH_PATHS = ["/login", "/register"];
 
+/** Пункты меню зависят от того, кто вошёл, и подсвечивается текущий раздел */
+function getNavLinks(user, pathname) {
+  const links = [
+    { label: "Home", href: "/" },
+    { label: "Find Job", href: "/jobs" },
+  ];
+
+  if (user?.role === "candidate") {
+    links.push({ label: "My Applications", href: "/my-applications" });
+  }
+  if (user?.role === "employer") {
+    links.push({ label: "Dashboard", href: "/dashboard" });
+  }
+
+  return links.map((link) => ({
+    ...link,
+    // Главная активна только на "/", остальные — и на вложенных адресах (/jobs/5 → Find Job)
+    isActive: link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
+  }));
+}
+
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  // Запоминаем, на каком адресе открыли меню.
+  // Сменился адрес — значения не совпадают, и меню закрывается само.
+  const [menuOpenedAt, setMenuOpenedAt] = useState(null);
+  const isMenuOpen = menuOpenedAt === location.pathname;
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   const isAuthPage = AUTH_PATHS.includes(location.pathname);
+
+  function handleMenuToggle() {
+    setMenuOpenedAt(isMenuOpen ? null : location.pathname);
+  }
+
+  function handleSearchSubmit(event) {
+    event.preventDefault();
+    const query = searchQuery.trim();
+    setMenuOpenedAt(null);
+    navigate(query ? "/jobs?" + new URLSearchParams({ q: query }) : "/jobs");
+  }
+
+  function handleLogout() {
+    setMenuOpenedAt(null);
+    navigate("/");
+    logout();
+  }
 
   return (
     <>
@@ -89,28 +128,39 @@ function App() {
         <Header
           logoText="Jobpilot"
           logoHref="/"
-          navLinks={navLinks}
+          navLinks={getNavLinks(user, location.pathname)}
           phone="+1-202-555-0178"
           language={{ label: "English", flagSrc: "/flags/us.svg" }}
           country={{ label: "India", flagSrc: "/flags/in.svg" }}
           searchPlaceholder="Job title, keyword, company"
-          searchValue=""
+          searchValue={searchQuery}
           signInLabel="Sign In"
-          postJobLabel="Post A Jobs"
+          postJobLabel="Post A Job"
           menuOpenLabel="Open menu"
           menuCloseLabel="Close menu"
-          isMenuOpen={false}
-          onSearchChange={() => {}}
+          isMenuOpen={isMenuOpen}
+          userName={user ? user.first_name + " " + user.last_name : ""}
+          profileHref="/profile"
+          logoutLabel="Log Out"
+          onSearchChange={(event) => setSearchQuery(event.target.value)}
+          onSearchSubmit={handleSearchSubmit}
+          onSignInClick={() => navigate("/login")}
+          onPostJobClick={() => navigate("/register")}
+          onLogoutClick={handleLogout}
+          onMenuToggle={handleMenuToggle}
         />
       )}
+
       <Routes>
         {/* Все */}
         <Route path="/" element={<HomePage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/jobs/:id" element={<JobDetailsPage />} />
+
         {/* Гость (страницы сами редиректят вошедшего на /) */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+
         {/* Любой вошедший */}
         <Route
           path="/profile"
@@ -120,6 +170,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         {/* Соискатель */}
         <Route
           path="/apply/success"
@@ -137,7 +188,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        Работодатель
+
+        {/* Работодатель */}
         <Route
           path="/dashboard"
           element={
@@ -170,8 +222,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+
       {!isAuthPage && (
         <Footer
           logoText="Jobpilot"
