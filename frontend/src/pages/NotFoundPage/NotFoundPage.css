@@ -1,0 +1,94 @@
+.not-found-page {
+    padding: 48px 0;
+}
+
+/* Телефон: картинка сверху, текст под ней, всё по центру */
+.not-found-page__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.not-found-page__content {
+    max-width: 440px;
+    text-align: center;
+}
+
+.not-found-page__title {
+    margin: 0 0 16px;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 40px;
+    color: var(--gray-900);
+}
+
+.not-found-page__text {
+    margin: 0 0 32px;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--gray-600);
+}
+
+.not-found-page__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.not-found-page__media {
+    order: -1; /* на телефоне картинка идёт первой, хотя в разметке она вторая */
+    width: 100%;
+    max-width: 400px;
+}
+
+.not-found-page__image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (min-width: 768px) {
+    .not-found-page {
+        padding: 64px 0;
+    }
+
+    .not-found-page__title {
+        font-size: 40px;
+        line-height: 48px;
+    }
+
+    .not-found-page__media {
+        max-width: 520px;
+    }
+}
+
+/* Десктоп: текст слева, картинка справа, блок по центру высоты экрана */
+@media (min-width: 1024px) {
+    .not-found-page {
+        display: flex;
+        align-items: center;
+        min-height: calc(100vh - var(--header-height));
+    }
+
+    .not-found-page__inner {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 48px;
+    }
+
+    .not-found-page__content {
+        flex-shrink: 0;
+        text-align: left;
+    }
+
+    .not-found-page__actions {
+        justify-content: flex-start;
+    }
+
+    .not-found-page__media {
+        order: 0;
+        max-width: 640px;
+    }
+}
