@@ -27,36 +27,35 @@ const footerColumns = [
   {
     title: "Quick Link",
     links: [
-      { label: "About", href: "/about" },
-      { label: "Contact", href: "/contact", isActive: true },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Blog", href: "/blog" },
+      { label: "Home", href: "/" },
+      { label: "Find Job", href: "/jobs" },
+      { label: "Sign In", href: "/login" },
+      { label: "Create Account", href: "/register" },
     ],
   },
   {
     title: "Candidate",
     links: [
       { label: "Browse Jobs", href: "/jobs" },
-      { label: "Browse Employers", href: "/employers" },
-      { label: "Candidate Dashboard", href: "/profile" },
-      { label: "Saved Jobs", href: "/saved-jobs" },
+      { label: "My Applications", href: "/my-applications" },
+      { label: "Candidate Profile", href: "/profile" },
     ],
   },
   {
     title: "Employers",
     links: [
       { label: "Post a Job", href: "/dashboard/jobs/new" },
-      { label: "Browse Candidates", href: "/candidates" },
-      { label: "Employers Dashboard", href: "/dashboard" },
+      { label: "Employer Dashboard", href: "/dashboard" },
       { label: "Applications", href: "/dashboard/applications" },
     ],
   },
   {
-    title: "Support",
+    title: "Categories",
     links: [
-      { label: "Faqs", href: "/faqs" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Design", href: "/jobs?category=design" },
+      { label: "Development", href: "/jobs?category=development" },
+      { label: "Marketing", href: "/jobs?category=marketing" },
+      { label: "Finance", href: "/jobs?category=finance" },
     ],
   },
 ];
@@ -131,7 +130,7 @@ function App() {
           navLinks={getNavLinks(user, location.pathname)}
           phone="+1-202-555-0178"
           language={{ label: "English", flagSrc: "/flags/us.svg" }}
-          country={{ label: "India", flagSrc: "/flags/in.svg" }}
+          country={{ label: "Kazakhstan", flagSrc: "/flags/kz.svg" }}
           searchPlaceholder="Job title, keyword, company"
           searchValue={searchQuery}
           signInLabel="Sign In"
