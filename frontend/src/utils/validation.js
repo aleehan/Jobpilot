@@ -36,6 +36,7 @@ export function validateRegister(values) {
     errors.password_confirm = "Passwords do not match";
   }
 
+  if (!values.terms) errors.terms = "You must accept the Terms of Services";
   return errors;
 }
 

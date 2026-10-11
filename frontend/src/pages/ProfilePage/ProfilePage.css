@@ -1,0 +1,166 @@
+/* Телефон: меню сверху горизонтальной полосой, форма под ним */
+.profile-page__inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-page__sidebar {
+    padding-top: 24px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.profile-page__sidebar-title {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--gray-400);
+}
+
+.profile-page__menu {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto; /* если пунктов станет много — прокрутка по горизонтали */
+}
+
+.profile-page__menu-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 2px solid transparent;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--gray-500);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--transition-duration),
+    background-color var(--transition-duration);
+}
+
+.profile-page__menu-link:hover {
+    color: var(--primary-500);
+}
+
+.profile-page__menu-link--active {
+    border-bottom-color: var(--primary-500);
+    color: var(--primary-500);
+}
+
+/* На телефоне выход есть в Header, здесь кнопку прячем */
+.profile-page__logout {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: color var(--transition-duration);
+}
+
+.profile-page__logout:hover {
+    color: var(--danger-500);
+}
+
+.profile-page__content {
+    padding: 32px 0 48px;
+}
+
+.profile-page__title {
+    margin: 0 0 32px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    color: var(--gray-900);
+}
+
+.profile-page__form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.profile-page__section-title {
+    margin: 0 0 16px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--gray-900);
+}
+
+.profile-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+/* Поле на всю ширину сетки (About) */
+.profile-page__field-full {
+    grid-column: 1 / -1;
+}
+
+/* Чтобы кнопка не растягивалась на всю ширину формы */
+.profile-page__actions {
+    display: flex;
+}
+
+@media (min-width: 768px) {
+    .profile-page__grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Десктоп: меню слева колонкой, форма справа */
+@media (min-width: 1024px) {
+    .profile-page__inner {
+        flex-direction: row;
+        min-height: calc(100vh - var(--header-height));
+    }
+
+    .profile-page__sidebar {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        width: 280px;
+        padding: 32px 24px 32px 0;
+        border-bottom: none;
+        border-right: 1px solid var(--gray-100);
+    }
+
+    .profile-page__sidebar-title {
+        padding-left: 20px;
+    }
+
+    .profile-page__menu {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .profile-page__menu-link {
+        padding: 12px 20px;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+
+    .profile-page__menu-link--active {
+        border-left-color: var(--primary-500);
+        background-color: var(--primary-50);
+    }
+
+    .profile-page__logout {
+        display: flex;
+        margin-top: auto; /* прижимает кнопку к низу колонки, как в макете */
+    }
+
+    .profile-page__content {
+        flex: 1;
+        padding: 32px 0 64px 48px;
+    }
+}
