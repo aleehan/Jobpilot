@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import JobCard from "../../components/JobCard/JobCard.jsx";
 import JobFilters from "../../components/JobFilters/JobFilters.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
-import { jobsTemp } from "../../mocks/jobsTemp.js";
+import { useJobs } from "../../context/JobsContext.jsx";
 import "./JobsPage.css";
 
 // Приводим к нижнему регистру и убираем пробелы и дефисы: «Front-end» найдёт «Frontend»
@@ -20,6 +20,7 @@ const setParam = (params, key, value) => {
 
 function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { jobs: allJobs } = useJobs();
   const q = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
   const category = searchParams.get("category") || "";
@@ -56,11 +57,10 @@ function JobsPage() {
     setIsFiltersOpen(false);
   };
 
-  // Временно: вакансии из jobsTemp.
-  // Когда появится JobsContext (У3), заменить на useJobs().
+  // Вакансии берём из JobsContext (У3): всё, что добавил или удалил работодатель, видно здесь
   const query = normalize(q);
   const place = normalize(location);
-  const jobs = jobsTemp.filter((job) => {
+  const jobs = allJobs.filter((job) => {
     if (!job.is_active) {
       return false;
     }

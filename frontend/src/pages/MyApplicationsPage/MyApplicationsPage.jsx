@@ -3,7 +3,7 @@ import Button from "../../components/Button/Button.jsx";
 import StatusBadge from "../../components/StatusBadge/StatusBadge.jsx";
 import { useApplications } from "../../context/ApplicationsContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { jobsTemp } from "../../mocks/jobsTemp.js";
+import { useJobs } from "../../context/JobsContext.jsx";
 import { EMPLOYMENT_TYPES } from "../../utils/constants.js";
 import "./MyApplicationsPage.css";
 
@@ -56,16 +56,16 @@ function MyApplicationsPage() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { getApplicationsByUser } = useApplications();
+  const { getJobById } = useJobs();
 
   // Новые отклики сверху
   const myApplications = user ? [...getApplicationsByUser(user.id)] : [];
   myApplications.sort((a, b) => b.created_at.localeCompare(a.created_at) || b.id - a.id);
 
-  // Временно: вакансии из jobsTemp.
-  // Когда появится JobsContext (У3), заменить на getJobById из useJobs().
+  // Вакансия для каждого отклика берётся из JobsContext (У3)
   const rows = myApplications.map((application) => ({
     application,
-    job: jobsTemp.find((item) => item.id === application.job_id),
+    job: getJobById(application.job_id),
   }));
 
   const handleLogout = () => {
