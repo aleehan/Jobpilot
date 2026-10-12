@@ -1,0 +1,65 @@
+.job-form {
+  --job-form-size-1: 1px;
+  --job-form-size-2: 2px;
+  --job-form-size-4: 4px;
+  --job-form-size-8: 8px;
+  --job-form-size-12: 12px;
+  --job-form-size-20: 20px;
+  --job-form-size-24: 24px;
+  --job-form-space: var(--job-form-size-24);
+  --job-form-radius: var(--job-form-size-8);
+  padding: var(--job-form-space);
+  background-color: var(--gray-00);
+  border: var(--job-form-size-1) solid var(--gray-100);
+  border-radius: var(--job-form-radius);
+}
+
+.job-form__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--job-form-space);
+}
+.job-form__field {
+  min-width: 0;
+}
+.job-form__error-summary {
+  margin: 0 0 var(--job-form-space);
+  color: var(--danger-500);
+  line-height: 1.5;
+}
+.job-form__toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--job-form-size-12);
+  margin: var(--job-form-space) 0;
+  cursor: pointer;
+}
+.job-form__checkbox {
+  width: var(--job-form-size-20);
+  height: var(--job-form-size-20);
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--primary-500);
+}
+.job-form__checkbox:focus-visible {
+  outline: var(--job-form-size-2) solid var(--primary-500);
+  outline-offset: var(--job-form-size-4);
+}
+.job-form__toggle-text {
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+.job-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--job-form-size-12);
+}
+
+@media (min-width: 768px) {
+  .job-form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .job-form__field--wide {
+    grid-column: 1 / -1;
+  }
+}
