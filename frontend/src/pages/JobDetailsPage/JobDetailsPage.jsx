@@ -4,7 +4,7 @@ import Button from "../../components/Button/Button.jsx";
 import JobCard from "../../components/JobCard/JobCard.jsx";
 import { useApplications } from "../../context/ApplicationsContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { jobsTemp } from "../../mocks/jobsTemp.js";
+import { useJobs } from "../../context/JobsContext.jsx";
 import { CATEGORIES, EMPLOYMENT_TYPES } from "../../utils/constants.js";
 import ApplyModal from "../../components/ApplyModal/ApplyModal.jsx";
 import NotFoundPage from "../NotFoundPage/NotFoundPage.jsx";
@@ -34,12 +34,12 @@ function JobDetailsPage() {
   const { id } = useParams();
   const { user, isAuthenticated } = useAuth();
   const { hasApplied } = useApplications();
+  const { jobs: allJobs, getJobById } = useJobs();
   const [isCopied, setIsCopied] = useState(false);
   const [isApplyOpen, setIsApplyOpen] = useState(false);
 
-  // Временно: вакансия из jobsTemp.
-  // Когда появится JobsContext (У3), заменить на getJobById(id) из useJobs().
-  const job = jobsTemp.find((item) => item.id === Number(id));
+  // Вакансия из JobsContext (У3)
+  const job = getJobById(id);
 
   if (!job || !job.is_active) {
     return <NotFoundPage />;
@@ -53,7 +53,7 @@ function JobDetailsPage() {
   const salaryMax = job.salary_max.toLocaleString("en-US");
 
   // Похожие: сначала из той же категории, потом остальные. Показываем три.
-  const others = jobsTemp.filter((item) => item.is_active && item.id !== job.id);
+  const others = allJobs.filter((item) => item.is_active && item.id !== job.id);
   const sameCategory = others.filter((item) => item.category === job.category);
   const differentCategory = others.filter((item) => item.category !== job.category);
   const relatedJobs = [...sameCategory, ...differentCategory].slice(0, 3);
