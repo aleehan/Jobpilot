@@ -148,7 +148,7 @@ function Header({
     >
       <img src={language.flagSrc} alt="" className="header__flag" width="24" height="16" />
       <span>{language.label}</span>
-      <ChevronIcon />
+      {/*<ChevronIcon />*/}
     </button>
   );
 
@@ -218,7 +218,7 @@ function Header({
             >
               <img src={country.flagSrc} alt="" className="header__flag" width="24" height="16" />
               <span>{country.label}</span>
-              <ChevronIcon />
+              {/*<ChevronIcon />*/}
             </button>
             <span className="header__search-divider" aria-hidden="true" />
             <label className="header__search-field">

@@ -34,9 +34,9 @@ const suggestions = [
 ].map((item) => ({ ...item, href: jobsSearchHref(item.label) }));
 
 const stats = [
-  { value: "1,75,324", label: "Live Job", icon: "briefcase" },
+  { value: "175,324", label: "Live Job", icon: "briefcase" },
   { value: "97,354", label: "Companies", icon: "buildings" },
-  { value: "38,47,154", label: "Candidates", icon: "users" },
+  { value: "384,154", label: "Candidates", icon: "users" },
   { value: "7,532", label: "New Jobs", icon: "briefcase" },
 ];
 

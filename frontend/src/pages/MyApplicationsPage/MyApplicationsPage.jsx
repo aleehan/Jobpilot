@@ -15,16 +15,17 @@ const ICONS = {
   settings: "M4 7h16 M4 17h16 M9 5v4 M15 15v4",
   logout: "M15 4h4v16h-4 M10 8l-4 4 4 4 M6 12h10",
   pin: "M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z M12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z",
-  dollar: "M12 3v18 M16 7.5c0-1.4-1.8-2.5-4-2.5s-4 1.1-4 2.5 1.8 2.5 4 2.5 4 1.1 4 2.5-1.8 2.5-4 2.5-4-1.1-4-2.5",
+  dollar:
+    "M12 3v18 M16 7.5c0-1.4-1.8-2.5-4-2.5s-4 1.1-4 2.5 1.8 2.5 4 2.5 4 1.1 4 2.5-1.8 2.5-4 2.5-4-1.1-4-2.5",
 };
 
 // Пункты меню, кроме «Applied Jobs», в проекте пока не реализованы: показываем как в макете
 const NAV_ITEMS = [
-  { key: "overview", label: "Overview", icon: "overview" },
+  // { key: "overview", label: "Overview", icon: "overview" },
   { key: "applied", label: "Applied Jobs", icon: "applied", isActive: true },
-  { key: "favorite", label: "Favorite Jobs", icon: "favorite" },
-  { key: "alert", label: "Job Alert", icon: "alert" },
-  { key: "settings", label: "Settings", icon: "settings" },
+  // { key: "favorite", label: "Favorite Jobs", icon: "favorite" },
+  // { key: "alert", label: "Job Alert", icon: "alert" },
+  // { key: "settings", label: "Settings", icon: "settings" },
 ];
 
 function Icon({ name, size = 20 }) {
@@ -153,7 +154,9 @@ function MyApplicationsPage() {
                             </p>
                           </div>
                         ) : (
-                          <p className="my-applications__job-title">This job is no longer available</p>
+                          <p className="my-applications__job-title">
+                            This job is no longer available
+                          </p>
                         )}
                       </div>
 
